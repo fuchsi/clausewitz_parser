@@ -17,7 +17,6 @@
  */
 extern crate clausewitz_parser;
 extern crate encoding;
-extern crate env_logger;
 
 use clausewitz_parser::Parser;
 use clausewitz_parser::Tokenizer;

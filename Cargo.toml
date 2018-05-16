@@ -15,7 +15,6 @@ regex = "~1"
 lazy_static = "~1"
 encoding = "~0.2"
 log = "~0.4"
-env_logger = "~0.5"
 
 [dev-dependencies]
 pretty_assertions = "~0.5"
