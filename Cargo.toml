@@ -1,0 +1,21 @@
+[package]
+name = "clausewitz_parser"
+version = "0.1.0"
+authors = ["Daniel Müller <perlfuchsi@gmail.com>"]
+description = "Clausewitz file parser"
+license = "GPL-3.0+"
+readme = "README.md"
+categories = ["parser-implementations", "parsing"]
+repository = "https://github.com/fuchsi/clausewitz_parser"
+keywords = ["parser", "nom", "paradox", "clausewitz"]
+
+[dependencies]
+error-chain = "~0.11"
+regex = "~1"
+lazy_static = "~1"
+encoding = "~0.2"
+log = "~0.4"
+env_logger = "~0.5"
+
+[dev-dependencies]
+pretty_assertions = "~0.5"
