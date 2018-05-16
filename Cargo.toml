@@ -7,7 +7,7 @@ license = "GPL-3.0+"
 readme = "README.md"
 categories = ["parser-implementations", "parsing"]
 repository = "https://github.com/fuchsi/clausewitz_parser"
-keywords = ["parser", "nom", "paradox", "clausewitz"]
+keywords = ["parser", "paradox", "clausewitz"]
 
 [dependencies]
 error-chain = "~0.11"
