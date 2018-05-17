@@ -209,7 +209,26 @@ impl<'buf> Parser<'buf> {
                 },
             };
             debug!("[parse_dict] got value: {:?}", value);
-            dict.insert(key, value);
+
+            // check for implicit lists
+            if dict.contains_key(&key) {
+                debug!("[parse_dict] key already exists");
+                if let ClVal::List(_) = dict.get(&key).unwrap() {
+                    // append to the existing list
+                    let list = dict.get_mut(&key).unwrap();
+                    debug!("[parse_dict] pushing to list");
+                    list.as_list_mut().unwrap().push(value);
+                } else {
+                    // create a new list from the stored value
+                    let dict_value = dict.remove(&key).unwrap();
+                    debug!("[parse_dict] converting to a list");
+                    let mut list = vec![dict_value];
+                    list.push(value);
+                    dict.insert(key, ClVal::List(list));
+                }
+            } else {
+                dict.insert(key, value);
+            }
             if self.position >= self.tokens.len() {
                 debug!("[parse_dict] reached EOF");
                 break;
@@ -573,6 +592,31 @@ mod tests {
         let mut dict2 = HashMap::new();
         dict2.insert(key_id("key1"), val_id("val1"));
         dict2.insert(key_id("key2"), val_id("val2"));
+        dict.insert(key_id("key"), val_dict(dict2));
+        assert_eq!(parser.parse().unwrap(), val_dict(dict));
+    }
+
+    #[test]
+    fn test_parse_dict_implicit_list() {
+        let tokens = vec![
+            untyped(b"key"),
+            equals(),
+            c_left(),
+            untyped(b"list"),
+            equals(),
+            untyped(b"value1"),
+            untyped(b"list"),
+            equals(),
+            untyped(b"value2"),
+            untyped(b"list"),
+            equals(),
+            untyped(b"value3"),
+        ];
+
+        let mut parser = Parser::new(tokens);
+        let mut dict = HashMap::new();
+        let mut dict2 = HashMap::new();
+        dict2.insert(key_id("list"), val_list(vec![val_id("value1"), val_id("value2"), val_id("value3")]));
         dict.insert(key_id("key"), val_dict(dict2));
         assert_eq!(parser.parse().unwrap(), val_dict(dict));
     }

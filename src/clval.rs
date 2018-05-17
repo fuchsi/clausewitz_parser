@@ -183,6 +183,14 @@ impl ClVal {
         }
     }
 
+    pub fn as_list_mut(&mut self) -> Result<&mut Vec<ClVal>> {
+        if let ClVal::List(ref mut list) = self {
+            Ok(list)
+        } else {
+            bail!(ErrorKind::InvalidValue("list".to_string()))
+        }
+    }
+
     pub fn as_dict(&self) -> Result<&HashMap<ClKey, ClVal>> {
         if let ClVal::Dict(ref dict) = self {
             Ok(dict)
