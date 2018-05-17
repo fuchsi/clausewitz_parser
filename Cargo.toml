@@ -13,8 +13,9 @@ keywords = ["parser", "paradox", "clausewitz"]
 error-chain = "~0.11"
 regex = "~1"
 lazy_static = "~1"
-encoding = "~0.2"
 log = "~0.4"
 
 [dev-dependencies]
 pretty_assertions = "~0.5"
+encoding = "~0.2" # used only by the parser example
+
